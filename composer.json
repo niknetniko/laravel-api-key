@@ -1,28 +1,37 @@
 {
-    "name": "ejarnutowski/laravel-api-key",
-    "description": "Authorize requests to your Laravel application with API keys",
-    "keywords": ["api", "api key", "authentication", "authorization", "laravel"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Elliott Jarnutowski",
-            "email": "e@jarno.co"
-        }
-    ],
-    "minimum-stability": "stable",
-    "require": {
-        "php": ">=5.5.9"
+  "name": "ejarnutowski/laravel-api-key",
+  "description": "Authorize requests to your Laravel application with API keys",
+  "keywords": [
+    "api",
+    "api key",
+    "authentication",
+    "authorization",
+    "laravel"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Elliott Jarnutowski",
+      "email": "e@jarno.co"
     },
-    "autoload": {
-        "psr-4": {
-            "Ejarnutowski\\LaravelApiKey\\": "src"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "dont-discover": [
-                "ejarnutowski/laravel-api-key"
-            ]
-        }
+    {
+      "name": "Niko Strijbol"
     }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ejarnutowski\\LaravelApiKey\\": "src"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Ejarnutowski\\LaravelApiKey\\Providers\\ApiKeyServiceProvider"
+      ]
+    }
+  }
 }

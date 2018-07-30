@@ -2,6 +2,7 @@
 
 namespace Ejarnutowski\LaravelApiKey\Models;
 
+use function config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,6 +18,12 @@ class ApiKey extends Model
     protected static $nameRegex = '/^[a-z-]{1,255}$/';
 
     protected $table = 'api_keys';
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->setConnection(config('apikey.database.connection'));
+    }
 
     /**
      * Get the related ApiKeyAccessEvents records

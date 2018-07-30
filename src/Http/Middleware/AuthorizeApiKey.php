@@ -3,9 +3,12 @@
 namespace Ejarnutowski\LaravelApiKey\Http\Middleware;
 
 use Closure;
+use function config;
 use Ejarnutowski\LaravelApiKey\Models\ApiKey;
 use Ejarnutowski\LaravelApiKey\Models\ApiKeyAccessEvent;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use function preg_match;
 
 class AuthorizeApiKey
 {
@@ -20,19 +23,34 @@ class AuthorizeApiKey
      */
     public function handle(Request $request, Closure $next)
     {
-        $header = $request->header(self::AUTH_HEADER);
-        $apiKey = ApiKey::getByKey($header);
+        $header = $request->header(config('apikey.header.name'));
 
-        if ($apiKey instanceof ApiKey) {
-            $this->logAccessEvent($request, $apiKey);
-            return $next($request);
+        $format = config('apikey.header.format');
+        if ($format === null) {
+            $value = $header;
+        } else {
+            // Get the value from the header.
+            $values = [];
+            preg_match('/' . $format . '/', $header, $values);
+            $value = $values[1] ?? null;
         }
 
-        return response([
-            'errors' => [[
-                'message' => 'Unauthorized'
-            ]]
-        ], 401);
+        if (config('app.debug') && $value === null) {
+            $value = $request->input('apiKey');
+        }
+
+        if ($value !== null) {
+            $apiKey = ApiKey::getByKey($value);
+
+            if ($apiKey instanceof ApiKey) {
+                $this->logAccessEvent($request, $apiKey);
+                return $next($request);
+            }
+        }
+
+        return response('', Response::HTTP_UNAUTHORIZED, [
+            'WWW-Authenticate' => 'Bearer realm="ileo"'
+        ]);
     }
 
     /**

@@ -8,6 +8,12 @@ class ApiKeyAdminEvent extends Model
 {
     protected $table = 'api_key_admin_events';
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->setConnection(config('apikey.database.connection'));
+    }
+
     /**
      * Get the related ApiKey record
      *
