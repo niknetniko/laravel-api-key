@@ -6,6 +6,13 @@ use function config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ *
+ * @property string $key The key.
+ * @property string $name The name.
+ *
+ * @author Niko Strijbol
+ */
 class ApiKey extends Model
 {
     use SoftDeletes;

@@ -2,10 +2,12 @@
 
 namespace Ejarnutowski\LaravelApiKey\Http\Middleware;
 
+use function app;
 use Closure;
 use function config;
 use Ejarnutowski\LaravelApiKey\Models\ApiKey;
 use Ejarnutowski\LaravelApiKey\Models\ApiKeyAccessEvent;
+use Ejarnutowski\LaravelApiKey\Providers\ApiUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use function preg_match;
@@ -44,6 +46,11 @@ class AuthorizeApiKey
 
             if ($apiKey instanceof ApiKey) {
                 $this->logAccessEvent($request, $apiKey);
+                // Make the user available globally.
+                $apiUser = app(ApiUser::class);
+                $apiUser->setKey($apiKey->key);
+                $apiUser->setName($apiKey->name);
+
                 return $next($request);
             }
         }

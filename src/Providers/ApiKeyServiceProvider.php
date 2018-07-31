@@ -47,6 +47,8 @@ class ApiKeyServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__ . '/../../config/apikey.php', 'apikey'
         );
+
+        $this->app->singleton(ApiUser::class);
     }
 
     /**
