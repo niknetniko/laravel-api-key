@@ -2,6 +2,7 @@
 
 namespace Ejarnutowski\LaravelApiKey\Http\Middleware;
 
+use function abort;
 use function app;
 use Closure;
 use function config;
@@ -55,9 +56,8 @@ class AuthorizeApiKey
             }
         }
 
-        return response('', Response::HTTP_UNAUTHORIZED, [
-            'WWW-Authenticate' => 'Bearer realm="ileo"'
-        ]);
+        abort(Response::HTTP_UNAUTHORIZED);
+        return null;
     }
 
     /**
