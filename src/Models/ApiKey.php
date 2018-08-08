@@ -5,10 +5,8 @@ namespace Ejarnutowski\LaravelApiKey\Models;
 use function config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use function var_dump;
 
 /**
- *
  * @property string $key The key.
  * @property string $name The name.
  *
